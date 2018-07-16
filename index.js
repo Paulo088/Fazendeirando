@@ -14,11 +14,39 @@ app.use(methodOverride());
 
 mongoose.connect("mongodb://localhost/db_fazendeirando");
 
-let Resource = app.resource = restful.model('produtos', mongoose.Schema({
-    title: String
-  }))
+let produts = mongoose.Schema({
+    name: String,
+    price: Number,
+    category: Boolean
+});
+
+let company = mongoose.Schema({
+    name: String,
+    test: String
+});
+
+let user = mongoose.Schema({
+    name: String,
+    email: String,
+    password: String,
+    money: Number,
+    level: Number,
+    companies: []
+});
+
+let Resource = app.resource = restful.model('produtos', produts)
   .methods(['get', 'post', 'put', 'delete']);
 
 Resource.register(app, '/produtos');
+
+Resource = app.resource = restful.model('users', user)
+  .methods(['get', 'post', 'put', 'delete']);
+
+Resource.register(app, '/users');
+
+Resource = app.resource = restful.model('companies', company)
+  .methods(['get', 'post', 'put', 'delete']);
+
+Resource.register(app, '/companies');
 
 app.listen(3000);
