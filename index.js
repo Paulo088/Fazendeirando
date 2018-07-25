@@ -22,7 +22,13 @@ let produts = mongoose.Schema({
 
 let company = mongoose.Schema({
     name: String,
-    test: String
+    level: Number
+});
+
+let loan = mongoose.Schema({
+    value: Number,
+    limit: Date,
+    interestRate: Number
 });
 
 let user = mongoose.Schema({
@@ -31,22 +37,30 @@ let user = mongoose.Schema({
     password: String,
     money: Number,
     level: Number,
-    companies: []
+    exp: Number,
+    produts: [produts],
+    companies: [company],
+    loans: [loan]
 });
 
-let Resource = app.resource = restful.model('produtos', produts)
-  .methods(['get', 'post', 'put', 'delete']);
+let Produts = app.resource = restful.model('produts', produts)
+    .methods(['get', 'post', 'put', 'delete']);
 
-Resource.register(app, '/produtos');
+Produts.register(app, '/produtos');
 
-Resource = app.resource = restful.model('users', user)
-  .methods(['get', 'post', 'put', 'delete']);
+let Companies = app.resource = restful.model('companies', company)
+    .methods(['get', 'post', 'put', 'delete']);
 
-Resource.register(app, '/users');
+Companies.register(app, '/companies');
 
-Resource = app.resource = restful.model('companies', company)
-  .methods(['get', 'post', 'put', 'delete']);
+let Loans = app.resource = restful.model('loans', loan)
+    .methods(['get', 'post', 'put', 'delete']);
 
-Resource.register(app, '/companies');
+Loans.register(app, '/loans');
+
+let Users = app.resource = restful.model('users', user)
+    .methods(['get', 'post', 'put', 'delete']);
+
+Users.register(app, '/users');
 
 app.listen(3000);
